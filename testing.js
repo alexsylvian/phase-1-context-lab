@@ -1,7 +1,4 @@
-function createEmployeeRecord(){
-
-}
-
+// Function to create an employee record
 function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
     return {
       firstName,
@@ -18,10 +15,12 @@ function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
     };
   }
   
+  // Function to create employee records from an array of arrays
   function createEmployeeRecords(arrayOfArrays) {
     return arrayOfArrays.map(createEmployeeRecord);
   }
-
+  
+  // Function to add a timeIn event to an employee's record
   function createTimeInEvent(dateStamp) {
     const [date, hour] = dateStamp.split(' ');
   
@@ -34,6 +33,7 @@ function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
     return this;
   }
   
+  // Function to add a timeOut event to an employee's record
   function createTimeOutEvent(dateStamp) {
     const [date, hour] = dateStamp.split(' ');
   
@@ -46,6 +46,7 @@ function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
     return this;
   }
   
+  // Function to calculate the hours worked on a specific date
   function hoursWorkedOnDate(date) {
     const timeIn = this.timeInEvents.find((event) => event.date === date);
     const timeOut = this.timeOutEvents.find((event) => event.date === date);
@@ -53,29 +54,18 @@ function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
     return (timeOut.hour - timeIn.hour) / 100;
   }
   
+  // Function to calculate the wages earned on a specific date
   function wagesEarnedOnDate(date) {
     const hoursWorked = this.hoursWorkedOnDate(date);
     return hoursWorked * this.payPerHour;
   }
   
+  // Function to calculate the total wages earned for all dates
   function findEmployeeByFirstName(collection, firstNameString) {
     return collection.find((employee) => employee.firstName === firstNameString);
   }
-  
+  // Function to calculate the total payroll for all employees
   function calculatePayroll(employeeRecords) {
     const totalPayroll = employeeRecords.reduce((acc, employee) => acc + employee.allWagesFor(), 0);
     return totalPayroll;
   }
-
-const allWagesFor = function () {
-    const eligibleDates = this.timeInEvents.map(function (e) {
-        return e.date
-    })
-
-    const payable = eligibleDates.reduce(function (memo, d) {
-        return memo + wagesEarnedOnDate.call(this, d)
-    }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
-
-    return payable
-}
-
